@@ -31,10 +31,14 @@ function createAddWindow() {
     });
 
     addWindow.loadURL(`file://${__dirname}/add.html`);
+    addWindow.on('closed', () => {
+        addWindow = null;
+    })
 }
 
 ipcMain.on('todo:add', (event, todo) => {
-    mainWindow.webContents.send('todo:add', 'todo');
+    mainWindow.webContents.send('todo:add', todo);
+    addWindow.close();
 });
 
 const menuTemplate = [
@@ -42,9 +46,18 @@ const menuTemplate = [
         label: 'File',
         submenu: [
             {
+                role: 'reload'
+            },
+            {
                 label: 'New Todo',
                 click() {
                     createAddWindow();
+                }
+            },
+            {
+                label: 'Clear Todo',
+                click() {
+                    mainWindow.webContents.send('todo:clear')
                 }
             },
             {
