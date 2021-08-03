@@ -1,0 +1,14 @@
+{
+  "name": "spectra-portal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "electron": "electron ."
+  },
+  "dependencies": {
+    "electron": "^13.1.7"
+  }
+}
