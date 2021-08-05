@@ -1,6 +1,6 @@
 const electron = require('electron');
 
-const { app, BrowserWindow } = electron;
+const { app, BrowserWindow, shell } = electron;
 
 let mainWindow;
 app.on('ready', () => {
@@ -11,4 +11,10 @@ app.on('ready', () => {
         }
     });
     mainWindow.loadURL(`file://${__dirname}/index.html`);
-})
+
+    mainWindow.webContents.on('new-window', function(e, url) {
+        e.preventDefault();
+        shell.openExternal(url);
+    });
+});
+

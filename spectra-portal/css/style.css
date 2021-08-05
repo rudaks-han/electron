@@ -8,6 +8,7 @@
 
 body {
     font-family: var(--font-family) !important;
+    background:#f0f0f0;
 }
 
 body ::-webkit-scrollbar {
@@ -26,7 +27,7 @@ body ::-webkit-scrollbar {
 }
 
 .main-content {
-    margin-top: 40px;
+    /*margin-top: 40px;*/
 }
 
 @media (min-width: 768px) {
@@ -37,7 +38,7 @@ body ::-webkit-scrollbar {
         width: 15rem !important;
     }
     .main-content {
-        margin-left: 15rem;
+        /*margin-left: 15rem;*/
     }
     .sidebar-menu-toggler {
         display: none !important;
