@@ -13,8 +13,8 @@ class Daouoffice extends React.Component {
 
     login() {
         console.error('login')
-        const username = "2014001";
-        const password = "rudaks12#";
+        const username = "xxx";
+        const password = "xxx";
 
         session.defaultSession.cookies.get({ url: 'https://spectra.daouoffice.com' })
             .then((cookies) => {
