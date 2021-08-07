@@ -4,24 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>FrontendFunn - Semantic UI - Sample Admin Dashboard Template</title>
-
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
-            integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q="
-            crossorigin="anonymous"
-    />
-
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
-            integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ="
-            crossorigin="anonymous"
-    />
+    <title>Spectra Dev Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"/>
     <link rel="stylesheet" href="css/style.css" />
-
-
 </head>
 
 <body>
@@ -53,6 +39,8 @@
                     </div>
                 </div>
             </div>
+
+
             <div class="four wide computer eight wide tablet sixteen wide mobile column">
                 <div class="ui fluid card">
                     <div class="content">
@@ -63,18 +51,43 @@
                         </div>
                         <div class="description">
                             <div class="ui list" id="daouoffice-list">
-                                <!--<div class="item">
-                                    <a class="header">Header</a>
-                                    <div class="description">
-                                        Click a link in our <a>description</a>.
+                            </div>
+                        </div>
+
+
+                        <div id='daouofficeLoginLayer' class="ui middle aligned center aligned grid" style="display:none">
+                            <div class="column">
+                                <h2 class="ui image header">
+                                    <div class="content">
+                                        로그인하세요~
                                     </div>
+                                </h2>
+                                <form method="post" class="ui large form">
+                                    <div class="ui stacked secondary  segment">
+                                        <div class="field">
+                                            <div class="ui left icon input">
+                                                <i class="user icon"></i>
+                                                <input type="text" name="username" placeholder="사번">
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <div class="ui left icon input">
+                                                <i class="lock icon"></i>
+                                                <input type="password" name="password" placeholder="비밀번호">
+                                            </div>
+                                        </div>
+                                        <div id="btnDaouofficeLogin" class="ui fluid large teal submit button">Login</div>
+                                    </div>
+
+                                    <div class="ui error message">
+                                        xx
+                                    </div>
+
+                                </form>
+
+                                <div class="ui message">
+                                    아이디/비밀번호는 개인 pc에 저장하므로 안전합니다.
                                 </div>
-                                <div class="item">
-                                    <a class="header">Learn More</a>
-                                    <div class="description">
-                                        Learn more about this site on <a>our FAQ page</a>.
-                                    </div>
-                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -171,17 +184,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
 <script src="./js/common.js"></script>
 <script src="./js/script.js"></script>
-
+<script src="./js/widget/daouoffice.js"></script>
 <script>
     const electron = require('electron');
-    const { ipcRenderer } = electron;
-    //console.error(electron)
-    /*session.defaultSession.cookies.get({}, (error, cookies) => {
-        console.error(error, cookies)
-    })*/
+
 </script>
 
-<script src="./js/daouoffice.js"></script>
 
 </body>
 </html>

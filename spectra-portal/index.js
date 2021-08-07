@@ -2,20 +2,25 @@ const electron = require('electron');
 const axios = require('axios');
 const { app, ipcMain } = electron;
 const MainWindow = require('./app/mainWindow');
+const DaouofficeModule = require('./app/module/daouofficeModule');
 
 let mainWindow;
+let daouofficeModule;
 app.on('ready', () => {
     mainWindow = new MainWindow(`file://${__dirname}/index.html`);
+    daouofficeModule = new DaouofficeModule(mainWindow);
 });
-
-ipcMain.on('daouoffice:getDaouoffice', (event, path) => {
+/*
+ipcMain.on('daouoffice:findList', (event, path) => {
     //getDaouoffice();
     loginDaouoffice();
-});
+});*/
+/*
+
 
 function loginDaouoffice() {
-    const username = 'xx';
-    const password = 'xx';
+    const username = '';
+    const password = '';
 
     axios.post('https://spectra.daouoffice.com/api/login', {
         username,
@@ -51,10 +56,6 @@ function getDaouoffice(ssoCookie) {
         }
     })
         .then(function (response) {
-            // handle success
-            //console.error('axios get');
-            //console.log(response.data);
-
             mainWindow.webContents.send(
                 'daouoffice:getDaouoffice_callback',
                 response.data
@@ -68,3 +69,4 @@ function getDaouoffice(ssoCookie) {
             // always executed
         });
 }
+*/

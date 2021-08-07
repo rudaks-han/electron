@@ -1,6 +1,5 @@
 const electron = require('electron');
 const { BrowserWindow, shell } = electron;
-const Daouoffice = require('./widget/daouoffice');
 
 class MainWindow extends BrowserWindow {
     constructor(url) {
@@ -17,8 +16,6 @@ class MainWindow extends BrowserWindow {
             e.preventDefault();
             shell.openExternal(url);
         });
-
-        new Daouoffice().load();
     }
 }
 
