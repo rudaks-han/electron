@@ -11,6 +11,7 @@ class IpcRender {
     }
 
     send(name, data) {
+        console.log('[ipcRenderer.send]' + `${this.channelPrefix}.${name}`);
         ipcRenderer.send(`${this.channelPrefix}.${name}`, data);
     }
 }

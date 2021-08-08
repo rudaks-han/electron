@@ -3,12 +3,15 @@ const axios = require('axios');
 const { app, ipcMain } = electron;
 const MainWindow = require('./app/mainWindow');
 const DaouofficeModule = require('./app/module/daouofficeModule');
+const JiraModule = require('./app/module/jiraModule');
 
 let mainWindow;
 let daouofficeModule;
+let jiraModule;
 app.on('ready', () => {
     mainWindow = new MainWindow(`file://${__dirname}/index.html`);
     daouofficeModule = new DaouofficeModule(mainWindow);
+    jiraModule = new JiraModule(mainWindow);
 });
 /*
 ipcMain.on('daouoffice:findList', (event, path) => {

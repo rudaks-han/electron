@@ -1,5 +1,3 @@
-const IpcRender = require('./js/lib/ipcRender');
-
 class Daouoffice {
     constructor() {
         this.apiUrl = 'https://spectra.daouoffice.com';
@@ -9,14 +7,12 @@ class Daouoffice {
     }
 
     initialize() {
-        //ipcRenderer.send('daouoffice.getList');
-        this.ipcRender.send('getList');
-        //ipcRenderer.on('daouoffice.findListCallback', this.findListCallback.bind(this));
+        this.ipcRender.send('findList');
         this.ipcRender.on('findListCallback', this.findListCallback.bind(this));
-        //ipcRenderer.on('daouoffice.showLoginPage', this.showLoginPage.bind(this));
         this.ipcRender.on('showLoginPage', this.showLoginPage.bind(this));
-
         document.querySelector('#btnDaouofficeLogin').addEventListener('click', this.onClickDaouofficeLogin.bind(this));
+        document.querySelector('#btnClockIn').addEventListener('click', this.onClickClockIn.bind(this));
+        document.querySelector('#btnClockOut').addEventListener('click', this.onClickClockOut.bind(this));
     }
 
     findListCallback(event, response) {
@@ -24,7 +20,7 @@ class Daouoffice {
         let html = '';
         let link = `${this.apiUrl}/app/board/2302/post`;
         response.data.map(item => {
-            console.log(item)
+            //console.log(item)
             let createdAt = item.createdAt.substring(0, 16);
             createdAt = createdAt.replace(/T/, ' ');
 
@@ -54,9 +50,17 @@ class Daouoffice {
     onClickDaouofficeLogin(e) {
         const username = document.querySelector('#daouofficeLoginLayer input[name="username"]').value;
         const password = document.querySelector('#daouofficeLoginLayer input[name="password"]').value;
-
-        //ipcRenderer.send('daouoffice.login', {username, password});
         this.ipcRender.send('login', {username, password});
+    }
+
+    onClickClockIn(e) {
+        /*const username = document.querySelector('#daouofficeLoginLayer input[name="username"]').value;
+        const password = document.querySelector('#daouofficeLoginLayer input[name="password"]').value;
+        this.ipcRender.send('login', {username, password});*/
+        this.ipcRender.send('clockIn');
+    }
+
+    onClickClockOut(e) {
     }
 }
 

@@ -94,9 +94,9 @@
                     <div class="extra content">
                         <div class="ui two buttons">
                             <div class="ui buttons">
-                                <button class="ui button">출근하기</button>
+                                <button id="btnClockIn" class="ui button">출근하기</button>
                                 <div class="or"></div>
-                                <button class="ui positive button">퇴근하기</button>
+                                <button id="btnClockOut" class="ui positive button">퇴근하기</button>
                             </div>
                         </div>
                     </div>
@@ -179,12 +179,16 @@
     </div>
 </div>
 <div id="test"></div>
-
 <script src="js/jquery-1.9.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
 <script src="./js/common.js"></script>
 <script src="./js/script.js"></script>
+<script>
+    const IpcRender = require('./js/lib/ipcRender');
+</script>
+
 <script src="./js/widget/daouoffice.js"></script>
+<script src="./js/widget/jira.js"></script>
 <script>
     const electron = require('electron');
 
