@@ -16,72 +16,60 @@ class DaouofficeModule {
         this.mainWindowSender = new MainWindowSender(this.mainWindow, 'daouoffice');
 
         //this.clearSsoCookie();
-        this.ipcMainListener.on('findList', (event, data) => {
-            this.findList();
-        });
-
-        this.ipcMainListener.on('login', (event, data) => {
-            if (data) {
-                this.login(data);
-            }
-        });
-
-        this.ipcMainListener.on('clockIn', (event, data) => {
-            this.clockIn();
-        });
-    }
-
-    getSsoCookie() {
-        return this.store.get(this.ssoCookieName);
+        this.ipcMainListener.on('findList', this.findList.bind(this));
+        this.ipcMainListener.on('login', this.login.bind(this));
+        this.ipcMainListener.on('clockIn', this.clockIn.bind(this));
     }
 
     getUserId() {
         return this.store.get(this.daouofficeUserId);
     }
 
+    getSsoCookie() {
+        return this.store.get(this.ssoCookieName);
+    }
+
     clearSsoCookie() {
         this.store.set(this.ssoCookieName, '');
     }
 
-    login(data) {
+    setSsoCookie(response) {
+        const cookies = response.headers['set-cookie'];
+        let ssoCookie = '';
+        for (let i in cookies) {
+            if (cookies[i].indexOf('GOSSOcookie') > -1) {
+                ssoCookie = cookies[i].substring(cookies[i].indexOf('=')+1, cookies[i].indexOf(';'));
+            }
+        }
+
+        this.store.set(this.ssoCookieName, ssoCookie);
+    }
+
+    login(e, data) {
+        if (!data) return;
         const { username, password } = data;
-        const _self = this;
-        axios.post(`${this.apiUrl}/api/login`, {
-            username,
-            password
-        })
+        const _this = this;
+        axios.post(`${this.apiUrl}/api/login`, { username, password})
             .then(function (response) {
-                const cookies = response.headers['set-cookie'];
-                let ssoCookie = '';
-                for (let i in cookies) {
-                    if (cookies[i].indexOf('GOSSOcookie') > -1) {
-                        ssoCookie = cookies[i].substring(cookies[i].indexOf('=')+1, cookies[i].indexOf(';'));
-                    }
-                }
-
-                _self.store.set(_self.ssoCookieName, ssoCookie);
-                _self.findSession();
-
-                _self.findList();
+                _this.setSsoCookie(response);
+                _this.findSession();
+                _this.findList();
             })
             .catch(function (error) {
-                _self.mainWindowSender.send('showLoginPage');
-            })
-            .then(function () {
-                // always executed
+                _this.mainWindowSender.send('showLoginPage');
             });
     }
 
     findSession() {
-        const _self = this;
+        const _this = this;
         axios.get(`${this.apiUrl}/api/user/session`, {
             headers: {
-                Cookie: `GOSSOcookie=${_self.getSsoCookie()}; IsCookieActived=true;`
+                Cookie: `GOSSOcookie=${_this.getSsoCookie()}; IsCookieActived=true;`
             }
         })
             .then(function (response) {
                 const userId = response.data.data.repId;
-                _self.store.set(_self.daouofficeUserId, userId);
+                _this.store.set(_this.daouofficeUserId, userId);
             })
             .catch(function (error) {
                 console.error(' session error')
@@ -89,93 +77,66 @@ class DaouofficeModule {
     }
 
     findList() {
-        const _self = this;
+        const _this = this;
         axios.get(`${this.apiUrl}/api/board/2302/posts?offset=5&page=0`, {
             headers: {
-                Cookie: `GOSSOcookie=${_self.getSsoCookie()}; IsCookieActived=true;`
+                Cookie: `GOSSOcookie=${_this.getSsoCookie()}; IsCookieActived=true;`
             }
         })
             .then(function (response) {
-                _self.mainWindowSender.send('findListCallback', response.data);
+                _this.mainWindowSender.send('findListCallback', response.data);
             })
             .catch(function (error) {
-                _self.mainWindowSender.send('showLoginPage');
-            })
-            .then(function () {
-                // always executed
+                _this.mainWindowSender.send('showLoginPage');
             });
     }
 
     clockIn() {
-        const _self = this;
+        const _this = this;
 
-        const userId = this.store.get(this.daouofficeUserId);
-        const url = `${this.apiUrl}/api/ehr/timeline/status/clockIn?userId=${userId}&baseDate=${ShareUtil.getCurrDate()}`;
-        const data = {"checkTime":`${ShareUtil.getCurrDate()}T${ShareUtil.getCurrTime()}.000Z`,"timelineStatus":{},"isNightWork":false,"workingDay":`${ShareUtil.getCurrDate()}`}
-        const config = {
-            headers: {
-                Cookie: `GOSSOcookie=${_self.getSsoCookie()}; IsCookieActived=true;`
-            }
-        };
-
-        /*axios.post(url, data, config)
-            .then(function (response) {
-                let msg = '';
-                console.error(response);
-                if (response.code == 200) {
-                    // 출근도장 OK
-                    msg = `${sessionUserName}님, ${currDate} ${currTime}에 출근시간으로 표시되었습니다.`;
-                    showBgNotification('출근도장', msg, true);
-                    saveLocalStorage('CLOCK_IN_DATE', currDate);
-                } else {
-                    // 출근 실패
+        axios.post(
+            `${this.apiUrl}/api/ehr/timeline/status/clockIn?userId=${this.getUserId()}&baseDate=${ShareUtil.getCurrDate()}`,
+            {"checkTime":`${ShareUtil.getCurrDate()}T${ShareUtil.getCurrTime()}.000Z`,"timelineStatus":{},"isNightWork":false,"workingDay":`${ShareUtil.getCurrDate()}`},
+            {
+                headers: {
+                    Cookie: `GOSSOcookie=${_this.getSsoCookie()}; IsCookieActived=true;`,
+                    TimeZoneOffset: '540'
                 }
             })
-            .catch(function (error) {
-                // 출근 실패
-            });*/
-/*
-
-        let options = {
-            method: 'post',
-            url: url,
-            headers: {'TimeZoneOffset': '540'},
-            param: param,
-            success : (res) => {
+            .then(function (response) {
                 let msg = '';
-                if (res.code == 200)
-                {
-                    // 출근도장 OK
-                    msg = `${sessionUserName}님, ${currDate} ${currTime}에 출근시간으로 표시되었습니다.`;
-                    showBgNotification('출근도장', msg, true);
-                    saveLocalStorage('CLOCK_IN_DATE', currDate);
+                console.error(response.status);
 
-                    const firebaseKey = `${firebaseApp.worktime_checker}/${getCurrDateToMonth()}/${getCurrDay()}/${sessionUserName}/출근시간`;
-                    const firebaseValue = currTime;
+            })
+            .catch(function (error) {
+                console.log('error');
+                const message = error.response.data.message; // 출근이 중복하여 존재합니다.
+                console.log(message);
+            });
+    }
 
-                    firebaseApp.set(firebaseKey, firebaseValue);
-                    logger.info('>>> [' + currDate + '] 출근도장 OK.')
+    clockOut() {
+        const _this = this;
+
+        axios.post(
+            `${this.apiUrl}/api/ehr/timeline/status/clockOut?userId=${this.getUserId()}&baseDate=${ShareUtil.getCurrDate()}`,
+            {"checkTime":`${ShareUtil.getCurrDate()}T${ShareUtil.getCurrTime()}.000Z`,"timelineStatus":{},"isNightWork":false,"workingDay":`${ShareUtil.getCurrDate()}`},
+            {
+                headers: {
+                    Cookie: `GOSSOcookie=${_this.getSsoCookie()}; IsCookieActived=true;`,
+                    TimeZoneOffset: '540'
                 }
-                else
-                {
-                    // 실패
-                    msg = `${sessionUserName}님, 출근시간 등록 실패!!!. ==> ${res.message}`;
-                    showBgNotification('출근도장', msg);
-                    logger.info('>>> [' + currDate + '] 출근도장 Fail.')
-                }
+            })
+            .then(function (response) {
+                let msg = '';
+                console.error(response.status);
 
-                firebaseApp.log(sessionUserName, msg);
-            },
-            error : (xhr, e) => {
-                console.error(e);
-                let responseText = JSON.parse(xhr.responseText);
-
-                this.handleError(responseText);
-
-                firebaseApp.log(sessionUserName, responseText);
-            },
-            complete : function(res) {
-            }*/
+            })
+            .catch(function (error) {
+                console.log('error');
+                const message = error.response.data.message; // 출근이 중복하여 존재합니다.
+                console.log(message);
+            });
     }
 }
 
