@@ -52,7 +52,7 @@ class DaouofficeModule {
         axios.post(`${this.apiUrl}/api/login`, { username, password})
             .then(function (response) {
                 _this.setSsoCookie(response);
-                _this.findSession();
+                _this.saveUserId();
                 _this.findList();
             })
             .catch(function (error) {
@@ -60,7 +60,7 @@ class DaouofficeModule {
             });
     }
 
-    findSession() {
+    saveUserId() {
         const _this = this;
         axios.get(`${this.apiUrl}/api/user/session`, {
             headers: {
