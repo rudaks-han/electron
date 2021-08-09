@@ -5,7 +5,7 @@ const IpcMainListener = require('../lib/ipcMainListener');
 const MainWindowSender = require('../lib/mainWindowSender');
 const ShareUtil = require('../lib/shareUtil');
 
-class DaouofficeModule {
+class DaouofficeClient {
     constructor(mainWindow) {
         this.apiUrl = 'https://spectra.daouoffice.com';
         this.ssoCookieName = 'daouoffice_ssoCookie';
@@ -140,4 +140,4 @@ class DaouofficeModule {
     }
 }
 
-module.exports = DaouofficeModule;
+module.exports = DaouofficeClient;

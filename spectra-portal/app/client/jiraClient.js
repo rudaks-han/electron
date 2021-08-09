@@ -5,16 +5,16 @@ const IpcMainListener = require('../lib/ipcMainListener');
 const MainWindowSender = require('../lib/mainWindowSender');
 const ShareUtil = require('../lib/shareUtil');
 
-class JiraModule {
+class JiraClient {
     constructor(mainWindow) {
         this.apiUrl = 'https://enomix.atlassian.net';
         this.mainWindow = mainWindow;
         this.store = new Store();
         this.ipcMainListener = new IpcMainListener('jira');
         this.mainWindowSender = new MainWindowSender(this.mainWindow, 'jira');
-        console.log('jiraModule constructor')
+        console.log('jiraClient constructor')
         this.ipcMainListener.on('findList', (event, data) => {
-            console.log('jiraModule.on.. findList')
+            console.log('jiraClient.on.. findList')
             this.findList();
         });
     }
@@ -56,4 +56,4 @@ class JiraModule {
 
 }
 
-module.exports = JiraModule;
+module.exports = JiraClient;

@@ -18,7 +18,7 @@
             <i class="sidebar icon"></i>
         </a>
         <a href="#" class="header item">
-            Semantic UI
+            Spectra Dev Portal
         </a>
     </div>
 
@@ -36,7 +36,7 @@
                     <i class="wrench icon"></i>
                     Settings</a
                 >
-                <a href="#" class="item">
+                <a href="#" id="btn-logout" class="item">
                     <i class="sign-out icon"></i>
                     Logout
                 </a>
@@ -49,7 +49,8 @@
 <div class="pusher">
     <div class="main-content">
         <div class="ui grid stackable padded">
-            <div class="five wide computer eight wide tablet sixteen wide mobile column">
+
+            <div id="jira-layer" class="five wide computer eight wide tablet sixteen wide mobile column">
                 <div class="ui fluid card">
                     <div class="content">
                         <div class="header">
@@ -57,13 +58,50 @@
                                 jira
                             </div>
                         </div>
+
                         <div class="description">
-                            <div class="ui bulleted list">
-                                <div class="item"><a href="https://enomix.atlassian.net/secure/RapidBoard.jspa?projectKey=ATTP" target="_blank">활성 스프린트</a></div>
-                                <div class="item">attic 결함</div>
+                            <div class="ui relaxed divided list">
+                                <div class="item">
+                                    <i class="large github middle aligned icon"></i>
+                                    <div class="content">
+                                        <a class="header">Semantic-Org/Semantic-UI</a>
+                                        <div class="description">Updated 10 mins ago</div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="large github middle aligned icon"></i>
+                                    <div class="content">
+                                        <a class="header">Semantic-Org/Semantic-UI-Docs</a>
+                                        <div class="description">Updated 22 mins ago</div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="large github middle aligned icon"></i>
+                                    <div class="content">
+                                        <a class="header">Semantic-Org/Semantic-UI-Meteor</a>
+                                        <div class="description">Updated 34 mins ago</div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="large github middle aligned icon"></i>
+                                    <div class="content">
+                                        <a class="header">Semantic-Org/Semantic-UI-Docs</a>
+                                        <div class="description">Updated 22 mins ago</div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="large github middle aligned icon"></i>
+                                    <div class="content">
+                                        <a class="header">Semantic-Org/Semantic-UI-Meteor</a>
+                                        <div class="description">Updated 34 mins ago</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
+
+
                     <div class="extra content">
                         <div class="ui two buttons">
                             <div class="ui red button">바로 가기</div>
@@ -73,21 +111,21 @@
             </div>
 
 
-            <div class="five wide computer eight wide tablet sixteen wide mobile column">
+            <div id="daouoffice-layer" class="five wide computer eight wide tablet sixteen wide mobile column">
                 <div class="ui fluid card">
                     <div class="content">
                         <div class="header">
-                            <div class="ui red header">
+                            <div class="ui header">
                                 Daouoffice
                             </div>
                         </div>
                         <div class="description">
-                            <div class="ui list" id="daouoffice-list">
+                            <div class="ui list">
                             </div>
                         </div>
 
 
-                        <div id='daouofficeLoginLayer' class="ui middle aligned center aligned grid" style="display:none">
+                        <div class="login-layer ui middle aligned center aligned grid" style="display:none">
                             <div class="column">
                                 <form method="post" class="ui large form">
                                     <div class="ui stacked secondary  segment">
@@ -103,7 +141,7 @@
                                                 <input type="password" name="password" placeholder="비밀번호">
                                             </div>
                                         </div>
-                                        <div id="btnDaouofficeLogin" class="ui fluid large teal submit button">Login</div>
+                                        <div class="btn-login ui fluid large teal submit button">Login</div>
                                     </div>
 
                                     <div class="ui error message">
@@ -121,19 +159,21 @@
                     <div class="extra content">
                         <div class="ui two buttons">
                             <div class="ui buttons">
-                                <button id="btnClockIn" class="ui button">출근하기</button>
+                                <button class="btn-clock-in ui button">출근하기</button>
                                 <div class="or"></div>
-                                <button id="btnClockOut" class="ui positive button">퇴근하기</button>
+                                <button class="btn-clock-out ui positive button">퇴근하기</button>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
-            <div class="five wide computer eight wide tablet sixteen wide mobile column">
+
+            <div id="modeloffice-layer" class="five wide computer eight wide tablet sixteen wide mobile column">
                 <div class="ui fluid card">
                     <div class="content">
                         <div class="header">
-                            <div class="ui red header">
+                            <div class="ui header">
                                 modeloffice
                             </div>
                         </div>
@@ -157,6 +197,36 @@
                                         <a class="header" href="https://victory-helpcenter.spectra.co.kr/customer" target="_blank">helpcenter</a>
                                     </div>
                                 </div>
+                                <div class="item">
+                                    <i class="map marker icon"></i>
+                                    <div class="content">
+                                        <a class="header" href="http://172.16.100.49:8070/docs/index.html" target="_blank">docs</a>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="map marker icon"></i>
+                                    <div class="content">
+                                        <a class="header" href="http://172.16.100.49:8070/mocha/docs/index.html" target="_blank">mocha api docs</a>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="map marker icon"></i>
+                                    <div class="content">
+                                        <a class="header" href="http://172.16.100.49:8070/shop/docs/index.html" target="_blank">shop api docs</a>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="map marker icon"></i>
+                                    <div class="content">
+                                        <a class="header" href="http://172.16.100.49:8070/espresso/docs/index.html" target="_blank">espresso api docs</a>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <i class="map marker icon"></i>
+                                    <div class="content">
+                                        <a class="header" href="http://172.16.100.49:8070/uaa/docs/index.html" target="_blank">uaa api docs</a>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
@@ -164,32 +234,99 @@
 
                 </div>
             </div>
-            <div class="five wide computer eight wide tablet sixteen wide mobile column">
+
+            <div id="jenkins-layer" class="five wide computer eight wide tablet sixteen wide mobile column">
                 <div class="ui fluid card">
                     <div class="content">
                         <div class="header">
-                            <div class="ui red header">
+                            <div class="ui header">
                                 jenkins
                             </div>
                         </div>
                         <div class="description">
-                            <div class="ui equal width center aligned padded grid">
-                                <div class="row">
-                                    <div class="blue column">
-                                        mocha
-                                    </div>
-                                    <div class="red column">
-                                        shop
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="blue column">
-                                        Black
-                                    </div>
-                                    <div class="blue column">
-                                        Olive
-                                    </div>
-                                </div>
+                            <button class="ui blue button">talk-api-mocha</button>
+                            <button class="ui red button">talk-api-shop</button>
+                            <button class="ui blue button">talk-api-mocha</button>
+                            <button class="ui blue button">talk-api-mocha</button>
+                            <button class="ui blue button">talk-api-mocha</button>
+                            <button class="ui blue button">talk-api-mocha</button>
+                            <button class="ui blue button">talk-api-mocha</button>
+                        </div>
+                    </div>
+                    <div class="extra content">
+                        <div class="ui two buttons">
+                            <div class="ui red button">바로 가기</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sonarqube-layer" class="five wide computer eight wide tablet sixteen wide mobile column">
+                <div class="ui fluid card">
+                    <div class="content">
+                        <div class="header">
+                            <div class="ui header">
+                                sonarqube
+                            </div>
+                        </div>
+                        <div class="description">
+                            <table class="ui celled table">
+                                <tbody>
+                                <tr class="positive">
+                                    <td>talk-api-mocha</td>
+                                    <td>Passed</td>
+                                </tr>
+                                <tr class="negative">
+                                    <td>talk-api-shop</td>
+                                    <td>Failed</td>
+                                </tr>
+                                <tr class="positive">
+                                    <td>talk-api-crema</td>
+                                    <td>Passed</td>
+                                </tr>
+                                <tr class="positive">
+                                    <td>talk-api-insight</td>
+                                    <td>Passed</td>
+                                </tr>
+                                <tr class="positive">
+                                    <td>talk-api-share</td>
+                                    <td>Passed</td>
+                                </tr>
+                                <tr class="positive">
+                                    <td>talk-ui-customer</td>
+                                    <td>Passed</td>
+                                </tr>
+                                <tr class="positive">
+                                    <td>talk-ui-backoffice</td>
+                                    <td>Passed</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="extra content">
+                        <div class="ui two buttons">
+                            <div class="ui red button">바로 가기</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="victory-portal-layer" class="five wide computer eight wide tablet sixteen wide mobile column">
+                <div class="ui fluid card">
+                    <div class="content">
+                        <div class="header">
+                            <div class="ui header">
+                                victory portal
+                            </div>
+                        </div>
+                        <div class="description">
+                            <div class="ui list">
+                                <a class="item">Victory 성능 테스트 가이드 교육</a>
+                                <a class="item">Victory 성능 테스트 가이드 교육</a>
+                                <a class="item">Victory 성능 테스트 가이드 교육</a>
+                                <a class="item">Victory 성능 테스트 가이드 교육</a>
+                                <a class="item">Victory 성능 테스트 가이드 교육</a>
                             </div>
                         </div>
                     </div>
@@ -206,45 +343,24 @@
                     <div class="content">
                         <div class="header">
                             <div class="ui header">
-                                sonarqube
+                                바로가기
+                            </div>
+                        </div>
+                        <div class="description">
+                            <div class="ui list">
+                                <div class="item">
+                                    <i class="map marker icon"></i>
+                                    <div class="content">
+                                        <a class="header">spectra gitlab</a>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="five wide computer eight wide tablet sixteen wide mobile column">
-                <div class="ui fluid card">
-                    <div class="content">
-                        <div class="header">
-                            <div class="ui header">
-                                victory portal
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="five wide computer eight wide tablet sixteen wide mobile column">
-                <div class="ui fluid card">
-                    <div class="content">
-                        <div class="header">
-                            <div class="ui header">
-                                gitlab
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="five wide computer eight wide tablet sixteen wide mobile column">
-                <div class="ui fluid card">
-                    <div class="content">
-                        <div class="header">
-                            <div class="ui header">
-                                developer portal
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <div class="five wide computer eight wide tablet sixteen wide mobile column">
                 <div class="ui fluid card">
                     <div class="content">
@@ -253,20 +369,12 @@
                                 upsource
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="five wide computer eight wide tablet sixteen wide mobile column">
-                <div class="ui fluid card">
-                    <div class="content">
-                        <div class="header">
-                            <div class="ui header">
-                                outlook
-                            </div>
+                        <div class="description">
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -279,11 +387,16 @@
     const IpcRender = require('./js/lib/ipcRender');
 </script>
 
-<script src="./js/widget/daouoffice.js"></script>
-<script src="./js/widget/jira.js"></script>
-<script src="./js/widget/jenkins.js"></script>
+<script src="./js/component/daouoffice.js"></script>
+<script src="./js/component/jira.js"></script>
+<script src="./js/component/jenkins.js"></script>
 <script>
     const electron = require('electron');
+    const { ipcRenderer } = electron;
+
+    document.querySelector('#btn-logout').addEventListener('click', () => {
+        ipcRenderer.send(`logout`);
+    });
 
 </script>
 

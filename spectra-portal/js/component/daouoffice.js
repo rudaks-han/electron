@@ -2,6 +2,7 @@ class Daouoffice {
     constructor() {
         this.apiUrl = 'https://spectra.daouoffice.com';
         this.ipcRender = new IpcRender('daouoffice');
+        this.layerSelector = '#daouoffice-layer';
 
         this.initialize();
     }
@@ -10,9 +11,9 @@ class Daouoffice {
         this.ipcRender.send('findList');
         this.ipcRender.on('findListCallback', this.findListCallback.bind(this));
         this.ipcRender.on('showLoginPage', this.showLoginPage.bind(this));
-        document.querySelector('#btnDaouofficeLogin').addEventListener('click', this.onClickDaouofficeLogin.bind(this));
-        document.querySelector('#btnClockIn').addEventListener('click', this.onClickClockIn.bind(this));
-        document.querySelector('#btnClockOut').addEventListener('click', this.onClickClockOut.bind(this));
+        document.querySelector(`${this.layerSelector} .btn-login`).addEventListener('click', this.onClickLogin.bind(this));
+        document.querySelector(`${this.layerSelector} .btn-clock-in`).addEventListener('click', this.onClickClockIn.bind(this));
+        document.querySelector(`${this.layerSelector} .btn-clock-out`).addEventListener('click', this.onClickClockOut.bind(this));
     }
 
     findListCallback(event, response) {
@@ -32,7 +33,7 @@ class Daouoffice {
                     </div>`;
         });
 
-        $('#daouoffice-list').html(html);
+        $(`${this.layerSelector} .list`).html(html);
     }
 
     showLoginPage() {
@@ -41,15 +42,15 @@ class Daouoffice {
 
     displayLoginLayer(showFlag) {
         if (showFlag) {
-            $('#daouofficeLoginLayer').show();
+            document.querySelector(`${this.layerSelector} .login-layer`).style.display = 'block';
         } else {
-            $('#daouofficeLoginLayer').hide();
+            document.querySelector(`${this.layerSelector} .login-layer`).style.display = 'none';
         }
     }
 
-    onClickDaouofficeLogin(e) {
-        const username = document.querySelector('#daouofficeLoginLayer input[name="username"]').value;
-        const password = document.querySelector('#daouofficeLoginLayer input[name="password"]').value;
+    onClickLogin(e) {
+        const username = document.querySelector(`${this.layerSelector} .login-layer input[name="username"]`).value;
+        const password = document.querySelector(`${this.layerSelector} .login-layer input[name="password"]`).value;
         this.ipcRender.send('login', {username, password});
     }
 
