@@ -1,0 +1,2 @@
+GET http://211.63.24.41:8080/view/victory/job/talk-api-mocha/job/master/lastBuild/api/json?pretty=true
+Authorization: Basic xxx
