@@ -32,7 +32,6 @@ class JiraClient {
         axios.post(`${this.apiUrl}/gateway/api/graphql`, data, {
             headers: {
                 //Cookie: `cloud.session.token=${cloudSessionToken};`
-               // Cookie: `cloud.session.token=eyJraWQiOiJzZXNzaW9uLXNlcnZpY2VcL3Byb2QtMTU5Mjg1ODM5NCIsImFsZyI6IlJTMjU2In0.eyJhc3NvY2lhdGlvbnMiOltdLCJzdWIiOiI1ZDZkZGMxOGM3MDAyZDBkOWRjMjliMGYiLCJlbWFpbERvbWFpbiI6InNwZWN0cmEuY28ua3IiLCJpbXBlcnNvbmF0aW9uIjpbXSwiY3JlYXRlZCI6MTYyODYzNDM2MCwicmVmcmVzaFRpbWVvdXQiOjE2Mjg2MzQ5NjAsInZlcmlmaWVkIjp0cnVlLCJpc3MiOiJzZXNzaW9uLXNlcnZpY2UiLCJzZXNzaW9uSWQiOiJkM2ZiNTA4Yi0xZmEwLTQ1ZmUtYTJjYi1jOWIyMjAzN2M5NDEiLCJhdWQiOiJhdGxhc3NpYW4iLCJuYmYiOjE2Mjg2MzQzNjAsImV4cCI6MTYzMTIyNjM2MCwiaWF0IjoxNjI4NjM0MzYwLCJlbWFpbCI6ImttaGFuQHNwZWN0cmEuY28ua3IiLCJqdGkiOiJkM2ZiNTA4Yi0xZmEwLTQ1ZmUtYTJjYi1jOWIyMjAzN2M5NDEifQ.s_6pzC2HxXykywLMrmtdwON1d7XjUDJGJzHAbNIIwR1cT74B6pKyrtchDPzPPb8oe0kA_5Ao8Vkm4KO2c3Gvo16_8jufH63SOmojDADMYvM5_iMVOMccp-n1Hz0Sjt42KczeQY3iybmd7Z0Un5TO3o7LHOi9kq6VIsC5GV-CqIwJdA171lsxKhK6LVIM9EaR5tMquyM7OnDb_SFIaOWRbJbroGK9WH9bwD3gh6WWeFFe57g9mEJv35JpRHA73s4x8HFKBrJwN60ASuWDb9FIkuuNdiMhXjs_clNIimm9kd2AVqme5W3mxDsfeOMsoLtygmRSsSlZvwzJ_PWIPaZwGQ;`
             }
         })
             .then(function (response) {
