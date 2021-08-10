@@ -7,7 +7,9 @@ class MainWindow extends BrowserWindow {
             webPreferences: {
                 nodeIntegration: true,
                 contextIsolation : false
-            }
+            },
+            width: 1280,
+            height: 800
         });
 
         this.loadURL(url);

@@ -7,11 +7,12 @@ class IpcRender {
     }
 
     on(name, callback) {
+        console.log(`[ipcRenderer.on] ${this.channelPrefix}.${name}`);
         ipcRenderer.on(`${this.channelPrefix}.${name}`, callback);
     }
 
     send(name, data) {
-        console.log('[ipcRenderer.send]' + `${this.channelPrefix}.${name}`);
+        console.log(`[ipcRenderer.send] ${this.channelPrefix}.${name}`);
         ipcRenderer.send(`${this.channelPrefix}.${name}`, data);
     }
 }

@@ -14,7 +14,10 @@ class DaouofficeClient {
         this.store = new Store();
         this.ipcMainListener = new IpcMainListener('daouoffice');
         this.mainWindowSender = new MainWindowSender(this.mainWindow, 'daouoffice');
+        this.bindIpcMainListener();
+    }
 
+    bindIpcMainListener() {
         //this.clearSsoCookie();
         this.ipcMainListener.on('findList', this.findList.bind(this));
         this.ipcMainListener.on('login', this.login.bind(this));
@@ -45,6 +48,14 @@ class DaouofficeClient {
         this.store.set(this.ssoCookieName, ssoCookie);
     }
 
+    getAxiosConfig() {
+        return {
+            headers: {
+                Cookie: `GOSSOcookie=${this.getSsoCookie()}; IsCookieActived=true;`
+            }
+        };
+    }
+
     login(e, data) {
         if (!data) return;
         const { username, password } = data;
@@ -62,11 +73,7 @@ class DaouofficeClient {
 
     saveUserId() {
         const _this = this;
-        axios.get(`${this.apiUrl}/api/user/session`, {
-            headers: {
-                Cookie: `GOSSOcookie=${_this.getSsoCookie()}; IsCookieActived=true;`
-            }
-        })
+        axios.get(`${this.apiUrl}/api/user/session`, this.getAxiosConfig())
             .then(function (response) {
                 const userId = response.data.data.repId;
                 _this.store.set(_this.daouofficeUserId, userId);
@@ -78,16 +85,12 @@ class DaouofficeClient {
 
     findList() {
         const _this = this;
-        axios.get(`${this.apiUrl}/api/board/2302/posts?offset=5&page=0`, {
-            headers: {
-                Cookie: `GOSSOcookie=${_this.getSsoCookie()}; IsCookieActived=true;`
-            }
-        })
+        axios.get(`${this.apiUrl}/api/board/2302/posts?offset=5&page=0`, this.getAxiosConfig())
             .then(function (response) {
                 _this.mainWindowSender.send('findListCallback', response.data);
             })
             .catch(function (error) {
-                _this.mainWindowSender.send('showLoginPage');
+                _this.mainWindowSender.send('requireAuth');
             });
     }
 
@@ -97,12 +100,7 @@ class DaouofficeClient {
         axios.post(
             `${this.apiUrl}/api/ehr/timeline/status/clockIn?userId=${this.getUserId()}&baseDate=${ShareUtil.getCurrDate()}`,
             {"checkTime":`${ShareUtil.getCurrDate()}T${ShareUtil.getCurrTime()}.000Z`,"timelineStatus":{},"isNightWork":false,"workingDay":`${ShareUtil.getCurrDate()}`},
-            {
-                headers: {
-                    Cookie: `GOSSOcookie=${_this.getSsoCookie()}; IsCookieActived=true;`,
-                    TimeZoneOffset: '540'
-                }
-            })
+            this.getAxiosConfig())
             .then(function (response) {
                 let msg = '';
                 console.error(response.status);
@@ -111,7 +109,7 @@ class DaouofficeClient {
             .catch(function (error) {
                 console.log('error');
                 const message = error.response.data.message; // 출근이 중복하여 존재합니다.
-                console.log(message);
+                //console.log(message);
             });
     }
 
@@ -121,12 +119,7 @@ class DaouofficeClient {
         axios.post(
             `${this.apiUrl}/api/ehr/timeline/status/clockOut?userId=${this.getUserId()}&baseDate=${ShareUtil.getCurrDate()}`,
             {"checkTime":`${ShareUtil.getCurrDate()}T${ShareUtil.getCurrTime()}.000Z`,"timelineStatus":{},"isNightWork":false,"workingDay":`${ShareUtil.getCurrDate()}`},
-            {
-                headers: {
-                    Cookie: `GOSSOcookie=${_this.getSsoCookie()}; IsCookieActived=true;`,
-                    TimeZoneOffset: '540'
-                }
-            })
+            this.getAxiosConfig())
             .then(function (response) {
                 let msg = '';
                 console.error(response.status);
