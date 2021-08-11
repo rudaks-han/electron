@@ -10,8 +10,7 @@ class Jira {
     }
 
     initialize() {
-        console.error('jira findList')
-        this.ipcRender.send('findList');
+        //this.ipcRender.send('findList');
     }
 
     bindIpcRenderer() {
