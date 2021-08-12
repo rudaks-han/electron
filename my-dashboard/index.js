@@ -19,6 +19,10 @@ app.on('ready', () => {
     ipcMain.on(`logout`, (event, data) => {
         logout();
     });
+
+    mainWindow.on('closed', () => {
+        mainWindow = null;
+    })
 });
 
 
