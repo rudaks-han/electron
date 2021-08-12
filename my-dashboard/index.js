@@ -11,7 +11,7 @@ let daouofficeClient;
 let jiraClient;
 let jenkinsClient;
 app.on('ready', () => {
-    mainWindow = new MainWindow(`file://${__dirname}/index.html`);
+    mainWindow = new MainWindow(`index.html`);
     daouofficeClient = new DaouofficeClient(mainWindow);
     jiraClient = new JiraClient(mainWindow);
     jenkinsClient = new JenkinsClient(mainWindow);

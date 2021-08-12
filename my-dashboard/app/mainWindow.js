@@ -12,7 +12,7 @@ class MainWindow extends BrowserWindow {
             height: 800
         });
 
-        this.loadURL(url);
+        this.loadFile(url);
         this.webContents.openDevTools();
         this.webContents.on('new-window', function(e, url) {
             e.preventDefault();
