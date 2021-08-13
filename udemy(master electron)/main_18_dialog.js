@@ -1,5 +1,5 @@
 // Modules
-const {app, BrowserWindow, screen} = require('electron')
+const {app, BrowserWindow, dialog} = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -8,24 +8,7 @@ let mainWindow
 // Create a new BrowserWindow when `app` is ready
 function createWindow () {
 
-  let displays = screen.getAllDisplays();
-
-  let primaryDisplay = screen.getPrimaryDisplay();
-
-  /*console.log(`${displays[0].size.width} x ${displays[0].size.height}`)
-  console.log(`${displays[0].bounds.x} x ${displays[0].bounds.y}`)
-
-  screen.on('display-metrics-changed', (e, display, metricsChanged) => {
-    console.log(metricsChanged)
-  })
-
-  setInterval(() => {
-    console.log(screen.getCursorScreenPoint())
-  }, 100)*/
-
   mainWindow = new BrowserWindow({
-    x: primaryDisplay.bounds.x, y: primaryDisplay.bounds.y,
-    width: primaryDisplay.size.width, minHeight: primaryDisplay.size.height,
     width: 1000, height: 800,
     webPreferences: {
       contextIsolation: false,
@@ -36,6 +19,29 @@ function createWindow () {
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile('index.html')
 
+  mainWindow.webContents.on('did-finish-load', () => {
+    /*dialog.showOpenDialog(mainWindow, {
+      buttonLabel: 'Select a photo',
+      defaultPath: app.getPath('home'),
+      properties: ['multiSelections', 'createDirectory', 'openFile', 'openDirectory']
+    }).then(result => {
+      console.log(result)
+    })*/
+
+    /*dialog.showSaveDialog({}).then(result => {
+      console.log(result)
+    })*/
+
+    const answers = ['Yes', 'No', 'Maybe']
+    dialog.showMessageBox({
+      title: 'Message Box',
+      message: 'Please select an option',
+      detail: 'Message details',
+      buttons: answers
+    }).then(result => {
+      console.log(`User selected: ${answers[result.response]}`)
+    })
+  })
   // Open DevTools - Remove for PRODUCTION!
   //mainWindow.webContents.openDevTools();
 

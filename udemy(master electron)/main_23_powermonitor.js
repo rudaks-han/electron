@@ -1,5 +1,6 @@
 // Modules
-const {app, BrowserWindow, screen} = require('electron')
+const electron = require('electron')
+const {app, BrowserWindow} = electron
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -8,24 +9,7 @@ let mainWindow
 // Create a new BrowserWindow when `app` is ready
 function createWindow () {
 
-  let displays = screen.getAllDisplays();
-
-  let primaryDisplay = screen.getPrimaryDisplay();
-
-  /*console.log(`${displays[0].size.width} x ${displays[0].size.height}`)
-  console.log(`${displays[0].bounds.x} x ${displays[0].bounds.y}`)
-
-  screen.on('display-metrics-changed', (e, display, metricsChanged) => {
-    console.log(metricsChanged)
-  })
-
-  setInterval(() => {
-    console.log(screen.getCursorScreenPoint())
-  }, 100)*/
-
   mainWindow = new BrowserWindow({
-    x: primaryDisplay.bounds.x, y: primaryDisplay.bounds.y,
-    width: primaryDisplay.size.width, minHeight: primaryDisplay.size.height,
     width: 1000, height: 800,
     webPreferences: {
       contextIsolation: false,
@@ -42,6 +26,14 @@ function createWindow () {
   // Listen for window being closed
   mainWindow.on('closed',  () => {
     mainWindow = null
+  })
+
+  electron.powerMonitor.on('resume', e => {
+    if (!mainWindow) createWindow()
+  })
+
+  electron.powerMonitor.on('suspend', e => {
+    console.log('Saving some data')
   })
 }
 

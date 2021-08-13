@@ -1,31 +1,27 @@
 // Modules
-const {app, BrowserWindow, screen} = require('electron')
+const {app, BrowserWindow, Menu, MenuItem} = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+//let mainMenu = new Menu();
+let mainMenu = Menu.buildFromTemplate(require('./mainMenu'))
+
+/*let menuItem1 = new MenuItem({
+  label: 'Electron',
+  submenu: [
+    {label: 'Item 1'},
+    {label: 'Item 2', submenu: [{ label: 'Sub Item 1'}]},
+    {label: 'Item 3'},
+  ]
+});
+mainMenu.append(menuItem1);*/
+
 // Create a new BrowserWindow when `app` is ready
 function createWindow () {
 
-  let displays = screen.getAllDisplays();
-
-  let primaryDisplay = screen.getPrimaryDisplay();
-
-  /*console.log(`${displays[0].size.width} x ${displays[0].size.height}`)
-  console.log(`${displays[0].bounds.x} x ${displays[0].bounds.y}`)
-
-  screen.on('display-metrics-changed', (e, display, metricsChanged) => {
-    console.log(metricsChanged)
-  })
-
-  setInterval(() => {
-    console.log(screen.getCursorScreenPoint())
-  }, 100)*/
-
   mainWindow = new BrowserWindow({
-    x: primaryDisplay.bounds.x, y: primaryDisplay.bounds.y,
-    width: primaryDisplay.size.width, minHeight: primaryDisplay.size.height,
     width: 1000, height: 800,
     webPreferences: {
       contextIsolation: false,
@@ -35,6 +31,9 @@ function createWindow () {
 
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile('index.html')
+
+  Menu.setApplicationMenu(mainMenu);
+
 
   // Open DevTools - Remove for PRODUCTION!
   //mainWindow.webContents.openDevTools();

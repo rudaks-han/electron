@@ -1,31 +1,36 @@
 // Modules
-const {app, BrowserWindow, screen} = require('electron')
+const {app, BrowserWindow, Tray, Menu} = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow, tray;
+
+let trayMenu = Menu.buildFromTemplate([
+  { label: 'Item 1'},
+  {role: 'quit'}
+])
+
+function createTray() {
+  tray = new Tray('trayTemplate@2x.png')
+  tray.setToolTip('Tray details')
+
+  tray.on('click', e => {
+    if (e.shiftKey) {
+      app.quit()
+    } else {
+      mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
+    }
+  })
+
+  tray.setContextMenu(trayMenu)
+}
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow () {
 
-  let displays = screen.getAllDisplays();
-
-  let primaryDisplay = screen.getPrimaryDisplay();
-
-  /*console.log(`${displays[0].size.width} x ${displays[0].size.height}`)
-  console.log(`${displays[0].bounds.x} x ${displays[0].bounds.y}`)
-
-  screen.on('display-metrics-changed', (e, display, metricsChanged) => {
-    console.log(metricsChanged)
-  })
-
-  setInterval(() => {
-    console.log(screen.getCursorScreenPoint())
-  }, 100)*/
+  createTray();
 
   mainWindow = new BrowserWindow({
-    x: primaryDisplay.bounds.x, y: primaryDisplay.bounds.y,
-    width: primaryDisplay.size.width, minHeight: primaryDisplay.size.height,
     width: 1000, height: 800,
     webPreferences: {
       contextIsolation: false,
