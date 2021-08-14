@@ -32,7 +32,9 @@ class SonarqubeClient {
             axios.get(this.getApiUrl('talk-api-shop')),
             axios.get(this.getApiUrl('talk-api-crema')),
             axios.get(this.getApiUrl('talk-api-insight')),
-            axios.get(this.getApiUrl('talk-api-share'))
+            axios.get(this.getApiUrl('talk-api-share')),
+            axios.get(this.getApiUrl('talk-ui-backoffice')),
+            axios.get(this.getApiUrl('talk-ui-customer'))
         ];
 
         axios.all(urls)

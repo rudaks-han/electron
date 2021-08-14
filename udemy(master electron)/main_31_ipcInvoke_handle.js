@@ -1,18 +1,47 @@
 // Modules
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, dialog, ipcMain } = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+async function askFruit() {
+  let fruits = ['Apple', 'Orange', 'Grape'];
+
+  let choice = await dialog.showMessageBox({
+    message: 'Pick a fruit:',
+    buttons: fruits
+  });
+
+  return fruits[choice.response]
+}
+
+/*ipcMain.on('ask-fruit', e => {
+  askFruit().then(answer => {
+    e.reply('answer-fruit', answer)
+  })
+})*/
+
+ipcMain.handle('ask-fruit', e => {
+  return askFruit();
+})
+
+
 // Create a new BrowserWindow when `app` is ready
 function createWindow () {
+
+  /*setTimeout(() => {
+    askFruit().then( answer => {
+      console.log(answer)
+    })
+  }, 3000)*/
 
   mainWindow = new BrowserWindow({
     width: 1000, height: 800,
     webPreferences: {
       contextIsolation: false,
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: false
     }
   })
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
   <head>
     <meta charset="UTF-8">
     <!-- !! IMPORTANT !! -->
@@ -12,24 +12,68 @@
   </head>
   <body>
 
-    <h1>Hello Electron!</h1>
-    <p>Build cross-platform desktop apps with JavaScript, HTML, and CSS</p>
+  <!--<h3><a href="#" onclick="newWin()">New Window</a> </h3>
+  <h3><a href="#" onclick="closeWin()">Close Window</a> </h3>
+  <h3><a href="#" onclick="styleWin()">Bad Fonts</a> </h3>-->
 
-    <a target="_blank" href="https://placekitten.com/500/500">Kitten</a>
-<br/>
+
+  <!--<a target="_blank" href="https://placekitten.com/500/500">Kitten</a>
+
+  <img src="https://placekitten.com/500/500" />
+  <button onclick="zoomUp()">Increase Zoom</button>
+  <button onclick="zoomDown()">Decrease Zoom</button>
+  <button onclick="zoomReset()">Reset Zoom</button>
+-->
+
+  <!--<img width="100%" src="" id="screenshot"><br>
+  <button id="screenshot-button">Get Screenshot</button>-->
+
+  <!--<button id="talk">Talk to main process</button><br>-->
+
+
+<!--<br/>
     <a href="splash.png" download>Download Image</a>
   <br/>
     <a href="https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_5MG.mp3" download>download</a>
-    <progress value="0" max="100" id="progress"></progress>
+    <progress value="0" max="100" id="progress"></progress>-->
+
+  <br><button id="ask">Pick a fruit</button>
 
     <script>
       window.progress = document.getElementById('progress')
+
+      let win;
+
+      const newWin = (e) => {
+        win = window.open('https://developer.mozilla.org');
+      }
+
+      const closeWin = () => {
+        win.close();
+      }
+
+      const styleWin = () => {
+        win.eval("document.getElementByTagName('h1')[0].style.fontFamily = 'Comic Sans ms'");
+      }
     </script>
 
 
     <script>
       // You can also require other files to run in this process
       require('./renderer.js')
+
+      const { webFrame } = require('electron');
+      const zoomUp = () => {
+        webFrame.setZoomLevel(webFrame.getZoomFactor() + 1)
+      }
+
+      const zoomDown = () => {
+        webFrame.setZoomLevel(webFrame.getZoomFactor() - 1)
+      }
+
+      const zoomReset = () => {
+        webFrame.setZoomLevel(1)
+      }
     </script>
   </body>
 </html>

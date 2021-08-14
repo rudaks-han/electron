@@ -9,3 +9,9 @@ GET http://211.63.24.41:8080/view/victory/job/talk-api-mocha/job/master/api/json
 
 ###
 GET http://211.63.24.41:8080/me/descriptorByName/jenkins.security.ApiTokenProperty/generateNewToken
+
+###
+GET https://victory-portal.spectra.co.kr/wp-json/wp/v2/posts?per_page=1
+Authorization: Basic xx
+###
+
