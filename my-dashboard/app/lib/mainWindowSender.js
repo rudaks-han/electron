@@ -9,7 +9,7 @@ class MainWindowSender {
     }
 
     send(name, data) {
-        console.log(`[MainWindowSender:${this.channelPrefix}.${name}]`);
+        console.log(`[MainWindowSender] ${this.channelPrefix}.${name}`);
         this.mainWindow.webContents.send(
             `${this.channelPrefix}.${name}`,
             data

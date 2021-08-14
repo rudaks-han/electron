@@ -13,7 +13,7 @@ class MainWindow extends BrowserWindow {
         });
 
         this.loadFile(url);
-        //this.webContents.openDevTools();
+        this.webContents.openDevTools();
         this.webContents.on('new-window', function(e, url) {
             e.preventDefault();
             shell.openExternal(url);

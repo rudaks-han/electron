@@ -34,7 +34,6 @@ class JenkinsClient {
     }
 
     findList() {
-        console.log('findList')
         const _this = this;
 
         let urls = [
@@ -49,7 +48,6 @@ class JenkinsClient {
         axios.all(urls)
             .then(axios.spread((...responses) => {
                 let buildResults = [];
-                console.log(responses[0])
                 responses.map(response => {
                     const moduleName = this.extractModuleName(response.data.fullDisplayName);
                     const url = response.data.url;

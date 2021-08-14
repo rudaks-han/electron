@@ -9,6 +9,7 @@ class IpcMainListener {
 
     on(name, callback) {
         ipcMain.on(`${this.channelPrefix}.${name}`, (event, data) => {
+            console.log(`[IpcMainListener] ${this.channelPrefix}.${name}`);
             callback(event, data);
         });
     }

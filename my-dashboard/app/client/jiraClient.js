@@ -36,11 +36,11 @@ class JiraClient {
         })
             .then(function (response) {
                 console.log('response')
-                console.log(response.data.data)
-                console.log(response.data.data.activities.myActivities.workedOn.nodes)
+                //console.log(response.data.data)
+                //console.log(response.data.data.activities.myActivities.workedOn.nodes)
                 const items = response.data.data.activities.myActivities.workedOn.nodes;
                 items.map(item => {
-                    console.log(item)
+                    //console.log(item)
                 })
                 /*const items = response.data[0].items;
                 //const sortStringKeys = (a, b) => String(a.viewTimeAge).localeCompare(b.viewTimeAge);

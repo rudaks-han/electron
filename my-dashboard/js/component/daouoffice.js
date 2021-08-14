@@ -9,6 +9,7 @@ class Daouoffice {
     }
 
     initialize() {
+        console.error('daouoffice initialize')
         this.ipcRender.send('findList');
     }
 

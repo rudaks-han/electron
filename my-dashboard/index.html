@@ -337,45 +337,13 @@
                                 sonarqube
                             </div>
                         </div>
-                        <div class="description">
-                            <table class="ui celled table">
-                                <tbody>
-                                <tr class="positive">
-                                    <td>talk-api-mocha</td>
-                                    <td>Passed</td>
-                                </tr>
-                                <tr class="negative">
-                                    <td>talk-api-shop</td>
-                                    <td>Failed</td>
-                                </tr>
-                                <tr class="positive">
-                                    <td>talk-api-crema</td>
-                                    <td>Passed</td>
-                                </tr>
-                                <tr class="positive">
-                                    <td>talk-api-insight</td>
-                                    <td>Passed</td>
-                                </tr>
-                                <tr class="positive">
-                                    <td>talk-api-share</td>
-                                    <td>Passed</td>
-                                </tr>
-                                <tr class="positive">
-                                    <td>talk-ui-customer</td>
-                                    <td>Passed</td>
-                                </tr>
-                                <tr class="positive">
-                                    <td>talk-ui-backoffice</td>
-                                    <td>Passed</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <div class="description list">
                         </div>
                     </div>
                     <div class="extra content">
-                        <div class="ui two buttons">
+                        <!--<div class="ui two buttons">
                             <div class="ui red button">바로 가기</div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -453,12 +421,9 @@
 <script src="./js/script.js"></script>
 <script>
     const IpcRender = require('./js/lib/ipcRender');
+    require('./js/component.js')
 </script>
 
-<script src="./js/component/daouoffice.js"></script>
-<script src="./js/component/jira.js"></script>
-<script src="./js/component/jenkins.js"></script>
-<script src="./js/component/sonarqube.js"></script>
 <script>
     const electron = require('electron');
     const { ipcRenderer } = electron;

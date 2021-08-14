@@ -128,7 +128,6 @@ class DaouofficeClient {
             .catch(function (error) {
                 console.log('error');
                 const message = error.response.data.message; // 출근이 중복하여 존재합니다.
-                console.log(message);
             });
     }
 }

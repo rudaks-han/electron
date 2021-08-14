@@ -17,7 +17,6 @@ class SonarqubeClient {
 
     bindIpcMainListener() {
         //this.clearSsoCookie();
-        console.error('aaa')
         this.ipcMainListener.on('findList', this.findList.bind(this));
     }
 
@@ -39,19 +38,13 @@ class SonarqubeClient {
         axios.all(urls)
             .then(axios.spread((...responses) => {
                 let buildResults = [];
-                console.log(responses[0])
                 responses.map(response => {
-                    console.log(response)
-                    /*const moduleName = this.extractModuleName(response.data.fullDisplayName);
-                    const url = response.data.url;
-                    const result = response.data.result;
-                    const timestamp = response.data.timestamp;
-                    const fullDisplayName = response.data.fullDisplayName;
-
-                    buildResults.push({url, moduleName, result, timestamp, fullDisplayName})*/
+                    const moduleName = response.data.component.name;
+                    const measures = response.data.component.measures;
+                    buildResults.push({ moduleName, measures })
                 });
 
-                //_this.mainWindowSender.send('findListCallback', buildResults);
+                _this.mainWindowSender.send('findListCallback', buildResults);
             }))
             .catch(function (error) {
                 console.error('error')
