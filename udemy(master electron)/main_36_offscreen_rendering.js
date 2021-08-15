@@ -1,40 +1,49 @@
 // Modules
 const {app, BrowserWindow} = require('electron')
-const windowStateKeeper = require('electron-window-state')
+const fs = require('fs')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+app.disableHardwareAcceleration()
+
 // Create a new BrowserWindow when `app` is ready
 function createWindow () {
 
-  let state = windowStateKeeper({
-    defaultWidth: 500, defaultHeight: 650
-  });
-
   mainWindow = new BrowserWindow({
-    x: state.x, y: state.y,
-    width: state.width, height: state.height,
-    minWidth: 350, maxWidth: 650, minHeight: 300,
+    width: 1000, height: 800,
+    show: false,
     webPreferences: {
       contextIsolation: false,
-      nodeIntegration: true
+      nodeIntegration: true,
+      offscreen: true
     }
   })
 
   // Load index.html into the new BrowserWindow
-  mainWindow.loadFile('renderer/main.html')
+  mainWindow.loadURL('https://electronjs.org')
 
-  state.manage(mainWindow)
+  let i=1;
+  mainWindow.webContents.on('paint', (e, dirty, image) => {
+    let screenshot = image.toPNG()
+    fs.writeFile(app.getPath('desktop') + `/screenshop_${i}.png`, screenshot, console.log)
+    i++
+  })
+  mainWindow.webContents.on('did-finish-load', e => {
+    console.log()
+
+    mainWindow.close();
+    mainWindow = null;
+  })
 
   // Open DevTools - Remove for PRODUCTION!
   //mainWindow.webContents.openDevTools();
 
   // Listen for window being closed
-  mainWindow.on('closed',  () => {
+ /* mainWindow.on('closed',  () => {
     mainWindow = null
-  })
+  })*/
 }
 
 // Electron `app` is ready

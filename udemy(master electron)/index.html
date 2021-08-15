@@ -10,8 +10,157 @@
       html { font-family: sans-serif; background: #2B2E3B; color: #9FEAF9; }
     </style>
   </head>
-  <body>
 
+  <body>
+    Hello Electron
+  <!--<p>Using node.js
+    <script>document.write(versions.node)</script>
+    and Electron
+    <script>document.write(versions.electron)</script>
+  </p>
+
+  <br>
+  <textarea id="content" rows="8" cols="80"></textarea>
+  <br><button id-="save"j onclick="saveText()">Save Content</button>
+
+  <script>
+    const saveText = e => {
+      const text = document.getElementById('content').value;
+      writeToFile(text)
+    }
+  </script>-->
+
+
+
+  <!--<script>
+
+    const { remote } = require('electron')
+
+    const self = remote.getCurrentWindow();
+
+    setTimeout(() => {
+      let notification = new Notification('Electron App', {
+        body: 'Some notification info!'
+      })
+
+      notification.onclick = e => {
+        if (!self.isVisible()) {
+          self.show()
+        }
+      }
+    }, 2000);
+  </script>-->
+
+
+  <!--<h1>App is <u id="status"></u></h1>
+
+  <script>
+    const setStatus = status => {
+      const statusNode = document.getElementById('status')
+      statusNode.innerText = status ? 'Online': 'Offline'
+    }
+
+    setStatus(navigator.onLine)
+
+    window.addEventListener('online', e => {
+      setStatus(true)
+    });
+
+    window.addEventListener('offline', e => {
+      setStatus(false)
+    });
+  </script>-->
+
+
+  <!--<br><button onclick="makeUpper()">Make clipboard uppercase</button>
+  <br><button onclick="showImage()">show clipboard image</button>
+
+  <br><img src="" id="cbImage">
+  <script>
+    const { clipboard } = require('electron')
+
+    const showImage = e => {
+      let image = clipboard.readImage();
+      document.getElementById('cbImage').src = image.toDataURL();
+    }
+    const makeUpper = e => {
+      let cbText = clipboard.readText();
+      clipboard.writeText(cbText.toUpperCase())
+    }
+  </script>-->
+
+  <!--<body>
+
+  <h1>Convert splash.png:</h1>
+
+  <button onclick="toPng()">PNG</button>
+  <button onclick="toJpg()">JPG</button>
+  <button onclick="toTag()">Show</button>
+  <br/>
+  <img src="" id="preview">
+
+  <script>
+    const { nativeImage, ipcRenderer } = require('electron');
+    const fs = require('fs')
+    const splash = nativeImage.createFromPath(`${__dirname}/splash.png`)
+
+    const saveToDesktop = async (data, ext) => {
+      let desktopPath = await ipcRenderer.invoke('app-path')
+      fs.writeFile(`${desktopPath}/splash.${ext}`, data, console.log)
+    }
+
+    const toTag = e => {
+      let size = splash.getSize();
+
+      let splashURL = splash.resize({width: Math.round(size.width/4), height: Math.round(size.height/4)}).toDataURL();
+      document.getElementById('preview').src = splashURL;
+    }
+
+    const toPng = e => {
+      let pngSplash = splash.toPNG()
+      saveToDesktop(pngSplash, 'png')
+    }
+
+    const toJpg = e => {
+      let pngSplash = splash.toJPEG(100)
+      saveToDesktop(pngSplash, 'jpg')
+    }
+  </script>-->
+
+  <!--<button onclick="showSite()">Launch Electron.js Site</button>
+  <button onclick="openSplash()">Open Splash.png</button>
+  <button onclick="openSplashFile()">Show Splash.png</button>
+  <button onclick="deleteSplashFile()">Delete Splash.png</button>
+
+  <script>
+    const { shell }  = require('electron');
+    const showSite = e => {
+      shell.openExternal('https://electronjs.org')
+    }
+
+    const splashPath = `${__dirname}/splash.png`;
+    const openSplash = e => {
+      shell.openPath(splashPath)
+    }
+
+    const openSplashFile = e => {
+      shell.showItemInFolder(splashPath)
+    }
+
+    const deleteSplashFile = e => {
+      shell.moveItemToTrash(splashPath)
+    }
+  </script>-->
+
+  <!--<button type="button" onclick="process.hang()">Hang Renderer</button>
+  <button type="button" onclick="process.crash()">Crash Renderer</button>
+  <script>
+    let i=0;
+    setInterval(() => {
+      console.log(i);
+      i++;
+    }, 500)
+  </script>-->
   <!--<h3><a href="#" onclick="newWin()">New Window</a> </h3>
   <h3><a href="#" onclick="closeWin()">Close Window</a> </h3>
   <h3><a href="#" onclick="styleWin()">Bad Fonts</a> </h3>-->
@@ -37,9 +186,9 @@
     <a href="https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_5MG.mp3" download>download</a>
     <progress value="0" max="100" id="progress"></progress>-->
 
-  <br><button id="ask">Pick a fruit</button>
+  <!--<br><button id="ask">Pick a fruit</button>-->
 
-    <script>
+    <!--<script>
       window.progress = document.getElementById('progress')
 
       let win;
@@ -55,10 +204,10 @@
       const styleWin = () => {
         win.eval("document.getElementByTagName('h1')[0].style.fontFamily = 'Comic Sans ms'");
       }
-    </script>
+    </script>-->
 
 
-    <script>
+    <!--<script>
       // You can also require other files to run in this process
       require('./renderer.js')
 
@@ -74,6 +223,6 @@
       const zoomReset = () => {
         webFrame.setZoomLevel(1)
       }
-    </script>
+    </script>-->
   </body>
 </html>
