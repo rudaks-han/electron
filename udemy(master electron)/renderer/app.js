@@ -5,7 +5,38 @@ let showModal = document.getElementById('show-modal'),
     closeModal = document.getElementById('close-modal'),
     modal = document.getElementById('modal'),
     addItem = document.getElementById('add-item'),
-    itemUrl = document.getElementById('url');
+    itemUrl = document.getElementById('url'),
+    search = document.getElementById('search');
+
+ipcRenderer.on('menu-show-modal', () => {
+    showModal.click();
+});
+
+ipcRenderer.on('menu-open-item', () => {
+    items.open()
+});
+
+ipcRenderer.on('menu-delete-item', () => {
+    let selectedItem = items.getSelectedItem();
+    items.delete(selectedItem.index);
+})
+
+search.addEventListener('keyup', e => {
+    Array.from(document.getElementsByClassName('read-item')).forEach(item => {
+        let hasMatch = item.innerText.toLowerCase().includes(search.value)
+        item.style.display = hasMatch ? 'flex' : 'none';
+    })
+});
+
+ipcRenderer.on('menu-open-item-native', () => {
+
+})
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        items.changeSelection(e.key);
+    }
+})
 
 const toggleModalButtons = () => {
     if (addItem.disabled === true) {
