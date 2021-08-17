@@ -1,4 +1,4 @@
-const electron = require('electron');
+const { BrowserWindow, session } = require('electron');
 const axios = require('axios');
 const Store = require('electron-store');
 const IpcMainListener = require('../lib/ipcMainListener');
@@ -31,7 +31,7 @@ class JiraClient {
         const cloudSessionToken = '';
         axios.post(`${this.apiUrl}/gateway/api/graphql`, data, {
             headers: {
-                //Cookie: `cloud.session.token=${cloudSessionToken};`
+                Cookie: `cloud.session.token=${cloudSessionToken};`
             }
         })
             .then(function (response) {
@@ -51,26 +51,94 @@ class JiraClient {
             })
             .catch(function (error) {
                 console.log('error requireAuth')
+                _this.openLoginPage()
                 _this.mainWindowSender.send('requireAuth');
             });
     }
 
+
+    openLoginPage() {
+        let ses = session.defaultSession;
+
+        let getCookies = () => {
+            ses.cookies.get({'name': 'cloud.session.token'})
+                .then(cookies => {
+                    console.log(cookies)
+                })
+                .catch( errors => {
+                    console.log(errors)
+                })
+        }
+
+        let loginWindow = new BrowserWindow({
+            webPreferences: {
+                nodeIntegration: true,
+                contextIsolation : false
+            },
+            width: 1280,
+            height: 800
+        })
+
+        loginWindow.loadURL('https://id.atlassian.com/login');
+        loginWindow.webContents.on('did-finish-load', e => {
+            ses.cookies.get({'name': 'cloud.session.token', 'domain': 'id.atlassian.com'})
+                .then(cookies => {
+                    //console.error(cookies)
+                    cookies.map(cookie => {
+                        const cloudSessionToken = cookie.value;
+                        console.error('cloudSessionToken : ' + cloudSessionToken)
+                        if (cloudSessionToken) {
+
+                            loginWindow.close();
+                            loginWindow = null;
+                        }
+                    })
+                });
+        })
+        loginWindow.webContents.openDevTools();
+
+    }
+
     login(e, data) {
+
         console.log('login')
-        const { username, password } = data;
+        //const { username, password } = data;
+        const username = '';
+        const password = '';
         const _this = this;
+
         axios.post(`https://auth.atlassian.com/co/authenticate?application=jira`,
-            { username, password })
+            { username, password }, {
+                headers: {
+
+                }
+            })
             .then(function (response) {
                 //_this.setSsoCookie(response);
                 /*_this.setSsoCookie(response);
                 _this.saveUserId();
                 _this.findList();*/
 
+                console.log('jira login')
+                console.log(response)
+
+                let loginWindow = new BrowserWindow({
+                    webPreferences: {
+                        nodeIntegration: true,
+                        contextIsolation : false
+                    },
+                    width: 1280,
+                    height: 800
+                })
+
+                loginWindow.loadURL()
+                this.webContents.openDevTools();
+
 
             })
             .catch(function (error) {
-                console.log()
+                console.log('login error')
+                console.log(error)
                 _this.mainWindowSender.send('showLoginPage');
             });
     }
@@ -78,7 +146,7 @@ class JiraClient {
     setSsoCookie(response) {
         const cookies = response.headers['set-cookie'];
         let ssoCookie = '';
-        console.log('cookies : ' + cookies)
+        //console.log('cookies : ' + cookies)
 
         for (let i in cookies) {
             if (cookies[i].indexOf('cloud.session.token') > -1) {
@@ -86,7 +154,7 @@ class JiraClient {
             }
         }
 
-        console.log('ssoCookie : ' + ssoCookie)
+        //console.log('ssoCookie : ' + ssoCookie)
         this.store.set(this.ssoCookieName, ssoCookie);
     }
 
