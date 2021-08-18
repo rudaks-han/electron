@@ -21,6 +21,7 @@ class DaouofficeClient {
         //this.clearSsoCookie();
         this.ipcMainListener.on('findList', this.findList.bind(this));
         this.ipcMainListener.on('login', this.login.bind(this));
+        this.ipcMainListener.on('logout', this.logout.bind(this));
         this.ipcMainListener.on('clockIn', this.clockIn.bind(this));
     }
 
@@ -69,6 +70,12 @@ class DaouofficeClient {
             .catch(function (error) {
                 _this.mainWindowSender.send('showLoginPage');
             });
+    }
+
+    logout(e) {
+        const _this = this;
+        _this.clearSsoCookie();
+        _this.findList();
     }
 
     saveUserId() {

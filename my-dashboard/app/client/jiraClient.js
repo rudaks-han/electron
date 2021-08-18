@@ -18,12 +18,14 @@ class JiraClient {
     bindIpcMainListener() {
         //this.clearSsoCookie();
         this.ipcMainListener.on('findList', this.findList.bind(this));
+        this.ipcMainListener.on('openLoginPage', this.openLoginPage.bind(this));
         this.ipcMainListener.on('logout', this.openLogoutPage.bind(this));
     }
 
     findList() {
         const _this = this;
-        const data = {"operationName":"jira_NavigationActivity","query":"\nfragment NavigationActivityItem on ActivitiesItem {\n  id\n  timestamp\n  object {\n    id\n    name\n    localResourceId\n    type\n    url\n    iconUrl\n    containers {\n      name\n      type\n    }\n    extension {\n      ... on ActivitiesJiraIssue {\n        issueKey\n      }\n    }\n  }\n}\n\nquery jira_NavigationActivity($first: Int, $cloudID: ID!) {\n  activities {\n    myActivities {\n      workedOn(first: $first, filters: [{type: AND, arguments: {cloudIds: [$cloudID], products: [JIRA, JIRA_BUSINESS, JIRA_SOFTWARE, JIRA_OPS]}}]) {\n        nodes {\n          ...NavigationActivityItem\n        }\n      }\n    }\n  }\n}\n\n","variables":{"first":10,"cloudID":"431d1acd-ee73-4c56-b41f-d9cfeb440064"}};
+        const count = 5;
+        const data = {"operationName":"jira_NavigationActivity","query":"\nfragment NavigationActivityItem on ActivitiesItem {\n  id\n  timestamp\n  object {\n    id\n    name\n    localResourceId\n    type\n    url\n    iconUrl\n    containers {\n      name\n      type\n    }\n    extension {\n      ... on ActivitiesJiraIssue {\n        issueKey\n      }\n    }\n  }\n}\n\nquery jira_NavigationActivity($first: Int, $cloudID: ID!) {\n  activities {\n    myActivities {\n      workedOn(first: $first, filters: [{type: AND, arguments: {cloudIds: [$cloudID], products: [JIRA, JIRA_BUSINESS, JIRA_SOFTWARE, JIRA_OPS]}}]) {\n        nodes {\n          ...NavigationActivityItem\n        }\n      }\n    }\n  }\n}\n\n","variables":{"first":count,"cloudID":"431d1acd-ee73-4c56-b41f-d9cfeb440064"}};
         const cloudSessionToken = this.store.get('cloudSessionToken');
         axios.post(`${this.apiUrl}/gateway/api/graphql`, data, {
             headers: {
@@ -35,7 +37,7 @@ class JiraClient {
                 _this.mainWindowSender.send('findListCallback', items);
             })
             .catch(function (error) {
-                _this.openLoginPage()
+                _this.mainWindowSender.send('findListCallback', []);
                 _this.mainWindowSender.send('requireAuth');
             });
     }
@@ -49,8 +51,8 @@ class JiraClient {
                 nodeIntegration: true,
                 contextIsolation : false
             },
-            width: 1280,
-            height: 800
+            width: 800,
+            height: 600
         })
 
         loginWindow.loadURL('https://id.atlassian.com/login');
@@ -58,7 +60,6 @@ class JiraClient {
 
             ses.cookies.get({'name': 'cloud.session.token', 'domain': 'id.atlassian.com'})
                 .then(cookies => {
-                    //console.error(cookies)
                     cookies.map(cookie => {
                         const cloudSessionToken = cookie.value;
                         if (cloudSessionToken) {
@@ -71,11 +72,12 @@ class JiraClient {
                     })
                 });
         })
-        loginWindow.webContents.openDevTools();
+        //loginWindow.webContents.openDevTools();
 
     }
 
     openLogoutPage() {
+        const _this = this;
         this.store.set('cloudSessionToken', '');
 
         let loginWindow = new BrowserWindow({
@@ -83,33 +85,24 @@ class JiraClient {
                 nodeIntegration: true,
                 contextIsolation : false
             },
-            width: 1280,
-            height: 800
+            width: 800,
+            height: 600
         })
         loginWindow.loadURL('https://id.atlassian.com/logout?continue=https%3A%2F%2Fenomix.atlassian.net');
         loginWindow.webContents.on('did-finish-load', e => {
+            session.defaultSession.cookies.get({'name': 'cloud.session.token', 'domain': 'id.atlassian.com'})
+                .then(cookies => {
+                    if (cookies.length === 0) {
+                        loginWindow.close();
+                        loginWindow = null;
 
-        })
-        loginWindow.webContents.openDevTools();
+                        _this.findList();
+                    }
+                });
 
-
+        });
+        //loginWindow.webContents.openDevTools();
     }
-
-    setSsoCookie(response) {
-        const cookies = response.headers['set-cookie'];
-        let ssoCookie = '';
-        //console.log('cookies : ' + cookies)
-
-        for (let i in cookies) {
-            if (cookies[i].indexOf('cloud.session.token') > -1) {
-                ssoCookie = cookies[i].substring(cookies[i].indexOf('=')+1, cookies[i].indexOf(';'));
-            }
-        }
-
-        //console.log('ssoCookie : ' + ssoCookie)
-        this.store.set(this.ssoCookieName, ssoCookie);
-    }
-
 }
 
 module.exports = JiraClient;

@@ -16,20 +16,48 @@ class Jira {
 
     bindIpcRenderer() {
         this.ipcRender.on('findListCallback', this.findListCallback.bind(this));
+        this.ipcRender.on('requireAuth', this.showLoginPage.bind(this));
     }
 
     addEventListener() {
         document.querySelector(`${this.layerSelector} .btn-login`).addEventListener('click', this.onClickLogin.bind(this));
+        document.querySelector(`${this.layerSelector} .btn-logout`).addEventListener('click', this.onClickLogout.bind(this));
+    }
 
+    showLoginPage(e) {
+        this.displayLoginLayer(true);
+    }
+
+    displayLoginLayer(showFlag) {
+        if (showFlag) {
+            document.querySelector(`${this.layerSelector} .login-layer`).style.display = 'flex';
+        } else {
+            document.querySelector(`${this.layerSelector} .login-layer`).style.display = 'none';
+        }
     }
 
     onClickLogin(e) {
-
+        this.ipcRender.send('openLoginPage');
     }
 
-    findListCallback(event, item) {
+    onClickLogout(e) {
+        this.ipcRender.send('logout');
+    }
+
+    findListCallback(event, data) {
+        if (data.length === 0) {
+            this.emptyList();
+            return;
+        }
+
+        this.addList(data);
+        this.displayLoginLayer(false);
+    }
+
+    addList(data) {
         let html = '';
-        item.map(item => {
+
+        data.map(item => {
             const issueKey = item.object.extension.issueKey;
             const name = item.object.name;
             const containerName = item.object.containers[1].name;
@@ -44,6 +72,10 @@ class Jira {
         });
 
         $(`${this.layerSelector} .list`).html(html);
+    }
+
+    emptyList() {
+        $(`${this.layerSelector} .list`).html('');
     }
 }
 

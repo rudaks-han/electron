@@ -9,7 +9,6 @@ class Daouoffice {
     }
 
     initialize() {
-        console.error('daouoffice initialize')
         this.ipcRender.send('findList');
     }
 
@@ -20,14 +19,25 @@ class Daouoffice {
 
     addEventListener() {
         document.querySelector(`${this.layerSelector} .btn-login`).addEventListener('click', this.onClickLogin.bind(this));
+        document.querySelector(`${this.layerSelector} .btn-logout`).addEventListener('click', this.onClickLogout.bind(this));
         document.querySelector(`${this.layerSelector} .btn-clock-in`).addEventListener('click', this.onClickClockIn.bind(this));
         document.querySelector(`${this.layerSelector} .btn-clock-out`).addEventListener('click', this.onClickClockOut.bind(this));
     }
 
     findListCallback(event, response) {
+        if (response.data.length === 0) {
+            this.emptyList();
+            return;
+        }
+
+        this.addList(response.data);
         this.displayLoginLayer(false);
+    }
+
+    addList(data) {
         let html = '';
-        response.data.map(item => {
+
+        data.map(item => {
             let createdAt = item.createdAt.substring(0, 16);
             createdAt = createdAt.replace(/T/, ' ');
             html += `<div class="item">
@@ -39,10 +49,26 @@ class Daouoffice {
         });
 
         $(`${this.layerSelector} .list`).html(html);
+        this.showExtraLayer(true);
     }
 
-    showLoginPage() {
+    emptyList() {
+        $(`${this.layerSelector} .list`).html('');
+    }
+
+    showExtraLayer(flag) {
+        if (flag) {
+            document.querySelector(`${this.layerSelector} .extra`).style.display = 'block';
+        } else {
+            document.querySelector(`${this.layerSelector} .extra`).style.display = 'none';
+        }
+    }
+
+    showLoginPage(e) {
         this.displayLoginLayer(true);
+        this.emptyList();
+        this.showExtraLayer(false);
+
     }
 
     displayLoginLayer(showFlag) {
@@ -57,6 +83,10 @@ class Daouoffice {
         const username = document.querySelector(`${this.layerSelector} .login-layer input[name="username"]`).value;
         const password = document.querySelector(`${this.layerSelector} .login-layer input[name="password"]`).value;
         this.ipcRender.send('login', {username, password});
+    }
+
+    onClickLogout(e) {
+        this.ipcRender.send('logout');
     }
 
     onClickClockIn(e) {

@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"/>
     <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        .right-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            margin-top: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -57,9 +66,20 @@
                             <div class="ui header">
                                 jira
                             </div>
+                            <div class="right-btn">
+                                <div class="ui dropdown item" tabindex="0">
+                                    <i class="setting cirlce icon"></i>
+                                    <div class="menu left transition hidden" tabindex="-1" style="display: block !important;">
+                                        <a href="#" class="item btn-logout">
+                                            <i class="sign-out icon"></i>
+                                            Logout
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div id='login-layer' class="ui placeholder segment">
+                        <div class="ui placeholder segment login-layer" style="display:none">
                             <div class="ui icon header">
                                 <i class="user circle outline icon"></i>
                                 Jira에 로그인해주세요~
@@ -91,6 +111,17 @@
                         <div class="header">
                             <div class="ui header">
                                 Daouoffice
+                            </div>
+                            <div class="right-btn">
+                                <div class="ui dropdown item" tabindex="0">
+                                    <i class="setting cirlce icon"></i>
+                                    <div class="menu left transition hidden" tabindex="-1" style="display: block !important;">
+                                        <a href="#" class="item btn-logout">
+                                            <i class="sign-out icon"></i>
+                                            Logout
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="description">
