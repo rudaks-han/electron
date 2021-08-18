@@ -31,7 +31,7 @@ class VictoryPortalClient {
             }
         })
             .then(function (response) {
-                console.log(response.data)
+               // console.log(response.data)
 
                 _this.mainWindowSender.send('findListCallback', response.data);
 

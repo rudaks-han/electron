@@ -27,8 +27,6 @@ class VictoryPortal {
             const link = item.link;
             const title = item.title.rendered;
 
-            console.log(title)
-            console.log(date)
             //html += `<a href="${link}" class="item" target="_blank">${title} <span>${date.substring(0, 10)}</span></a>`;
 
             html += `<div class="item">

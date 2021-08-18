@@ -10,39 +10,40 @@ class Jira {
     }
 
     initialize() {
+        //this.ipcRender.send('logout');
         this.ipcRender.send('findList');
     }
 
     bindIpcRenderer() {
         this.ipcRender.on('findListCallback', this.findListCallback.bind(this));
-        this.ipcRender.on('requireAuth', this.showLoginPage.bind(this));
     }
 
     addEventListener() {
         document.querySelector(`${this.layerSelector} .btn-login`).addEventListener('click', this.onClickLogin.bind(this));
-    }
 
-    showLoginPage() {
-        console.error('showLoginPage')
-        this.displayLoginLayer(true);
-    }
-
-    displayLoginLayer(showFlag) {
-        if (showFlag) {
-            document.querySelector(`${this.layerSelector} .login-layer`).style.display = 'block';
-        } else {
-            document.querySelector(`${this.layerSelector} .login-layer`).style.display = 'none';
-        }
     }
 
     onClickLogin(e) {
-        const username = document.querySelector(`${this.layerSelector} .login-layer input[name="username"]`).value;
-        const password = document.querySelector(`${this.layerSelector} .login-layer input[name="password"]`).value;
-        this.ipcRender.send('login', {username, password});
+
     }
 
-    findListCallback(event, response) {
+    findListCallback(event, item) {
+        let html = '';
+        item.map(item => {
+            const issueKey = item.object.extension.issueKey;
+            const name = item.object.name;
+            const containerName = item.object.containers[1].name;
 
+            html += `<div class="item">
+                        <i class="large middle aligned icon"></i>
+                        <div class="content">
+                            <a href="https://enomix.atlassian.net/browse/${issueKey}" class="header" target="_blank">${name}</a>
+                            <div class="description">${issueKey} | ${containerName}</div>
+                        </div>
+                    </div>`;
+        });
+
+        $(`${this.layerSelector} .list`).html(html);
     }
 }
 
